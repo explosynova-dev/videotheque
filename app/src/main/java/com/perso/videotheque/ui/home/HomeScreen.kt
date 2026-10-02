@@ -195,9 +195,9 @@ private fun DurationFilter(range: DurationRange, onChange: (Int, Int) -> Unit) {
     val max = DurationRange.MAX
     val summary = when {
         !range.isActive -> "Toutes"
-        range.minMinutes == min -> "Jusqu'à ${range.maxMinutes} min"
-        range.maxMinutes == max -> "${range.minMinutes} min et plus"
-        else -> "${range.minMinutes} – ${range.maxMinutes} min"
+        range.minMinutes == min -> "Jusqu'à ${minutesLabel(range.maxMinutes)}"
+        range.maxMinutes == max -> "${minutesLabel(range.minMinutes)} et plus"
+        else -> "${minutesLabel(range.minMinutes)} – ${minutesLabel(range.maxMinutes)}"
     }
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -233,11 +233,18 @@ private fun DurationFilter(range: DurationRange, onChange: (Int, Int) -> Unit) {
             },
         )
         Row {
-            Text("$min min", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(minutesLabel(min), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.weight(1f))
-            Text("$max min +", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("${minutesLabel(max)} +", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
+}
+
+/** 45 -> "45 min", 60 -> "1 h", 75 -> "1 h 15". */
+private fun minutesLabel(minutes: Int) = when {
+    minutes < 60 -> "$minutes min"
+    minutes % 60 == 0 -> "${minutes / 60} h"
+    else -> "${minutes / 60} h %02d".format(minutes % 60)
 }
 
 @Composable

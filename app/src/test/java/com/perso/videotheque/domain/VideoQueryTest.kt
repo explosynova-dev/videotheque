@@ -20,7 +20,7 @@ class VideoQueryTest {
         video(2, 12, yogaDoux, yin),
         video(3, 18, yin),
         video(4, 22, tuto),
-        video(5, 40, yogaDoux),
+        video(5, 100, yogaDoux),
         video(6, null, yogaDoux),
         video(7, 3, tuto),
     )
@@ -37,8 +37,8 @@ class VideoQueryTest {
     }
 
     @Test fun durationEndsAreOpen() {
-        // Max en butée (25) : inclut aussi les vidéos de plus de 25 min.
-        assertEquals(listOf(4L, 5L), ids(VideoQuery(duration = DurationRange(20, 25))))
+        // Max en butée (90) : inclut aussi les vidéos de plus de 1 h 30.
+        assertEquals(listOf(4L, 5L), ids(VideoQuery(duration = DurationRange(20, 90))))
         // Min en butée (5) : inclut aussi les vidéos de moins de 5 min.
         assertEquals(listOf(1L, 7L), ids(VideoQuery(duration = DurationRange(5, 10))))
     }

@@ -20,7 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         val DEFAULT_TAGS = listOf(
             "Yoga sportif", "Yoga dynamique", "Yoga doux", "Yin yoga", "Yin yoga profond",
-            "Tuto", "Wingfoil", "KiteSurf", "Astuce",
+            "Tuto", "Wingfoil", "KiteSurf", "Astuce", "Musique",
         ) + BodyKeywords.ALL + "Autres"
 
         fun create(context: Context): AppDatabase =

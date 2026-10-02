@@ -41,7 +41,7 @@ L'APK produit : `app/build/outputs/apk/debug/app-debug.apk`. Le projet s'ouvre a
 
 Notes :
 - La durée est stockée en secondes (`durationSeconds`), indépendamment des tags.
-- Filtre durée : les bornes 5 et 25 min sont ouvertes (« 5 min ou moins », « 25 min et plus ») pour ne jamais masquer une vidéo plus courte ou plus longue.
+- Filtre durée : les bornes 5 min et 1 h 30 sont ouvertes (« 5 min ou moins », « 1 h 30 et plus ») pour ne jamais masquer une vidéo plus courte ou plus longue.
 - Mots-clés zones du corps (Hanche, Épaule, Dos, Haut du corps, Bas du corps) : reconnus en français et en anglais dans le titre de la vidéo et présélectionnés à l'ajout (`domain/BodyKeywords.kt` pour ajouter des mots). Hanche implique Bas du corps, Épaule implique Haut du corps.
 - Plusieurs tags sélectionnés = « au moins un des tags ». Le mode « tous les tags » existe déjà dans la logique (`TagMatchMode.ALL`) si besoin plus tard.
 - Si YouTube change sa page, seule la durée automatique peut cesser de fonctionner : elle reste saisissable à la main, et `YouTubePageParser.kt` est le seul fichier à adapter.

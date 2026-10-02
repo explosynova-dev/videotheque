@@ -17,7 +17,7 @@ enum class TagMatchMode { ANY, ALL }
 
 /**
  * Plage de durée en minutes. Les bornes extrêmes sont ouvertes :
- * 5 = "5 min ou moins", 25 = "25 min ou plus", pour ne jamais masquer une vidéo
+ * 5 = "5 min ou moins", 90 = "1 h 30 ou plus", pour ne jamais masquer une vidéo
  * plus courte ou plus longue quand le curseur est en butée.
  */
 data class DurationRange(val minMinutes: Int = MIN, val maxMinutes: Int = MAX) {
@@ -33,7 +33,7 @@ data class DurationRange(val minMinutes: Int = MIN, val maxMinutes: Int = MAX) {
 
     companion object {
         const val MIN = 5
-        const val MAX = 25
+        const val MAX = 90
     }
 }
 
