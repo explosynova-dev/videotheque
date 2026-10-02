@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nom de l'application : à modifier ici, il est utilisé partout (icône, titre de l'écran). -->
+    <string name="app_name">Vidéothèque</string>
+    <string name="share_label">Vidéothèque</string>
+</resources>

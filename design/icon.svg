@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 108 108">
+  <!-- Icône de référence (calque adaptatif 108×108 ; zone visible ≈ 72×72 centrée) -->
+  <rect width="108" height="108" fill="#E6ECF0"/>
+  <g fill="none" stroke="#2C3D4B" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="32" y="36" width="44" height="28" rx="5"/>
+    <path d="M50.5 44V56L60 50Z"/>
+    <path d="M45 71H63"/>
+  </g>
+</svg>
