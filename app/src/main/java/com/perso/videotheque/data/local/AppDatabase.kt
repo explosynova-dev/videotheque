@@ -26,8 +26,9 @@ abstract class AppDatabase : RoomDatabase() {
         fun create(context: Context): AppDatabase =
             Room.databaseBuilder(context, AppDatabase::class.java, "videotheque.db")
                 .addCallback(object : Callback() {
-                    // Tags de départ : ajoutés s'ils manquent (y compris sur une base déjà existante).
-                    override fun onOpen(db: SupportSQLiteDatabase) {
+                    // Tags de départ : ajoutés une seule fois, à la création de la base,
+                    // pour qu'un tag supprimé depuis l'app ne réapparaisse pas.
+                    override fun onCreate(db: SupportSQLiteDatabase) {
                         val now = System.currentTimeMillis()
                         DEFAULT_TAGS.forEach { name ->
                             db.insert("tags", SQLiteDatabase.CONFLICT_IGNORE, ContentValues().apply {

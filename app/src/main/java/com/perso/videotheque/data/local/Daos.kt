@@ -54,4 +54,8 @@ interface TagDao {
 
     @Insert
     suspend fun insert(tag: TagEntity): Long
+
+    /** Les liaisons vidéo↔tag partent avec (ON DELETE CASCADE) ; les vidéos restent. */
+    @Query("DELETE FROM tags WHERE id = :id")
+    suspend fun delete(id: Long)
 }

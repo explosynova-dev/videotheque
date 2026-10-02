@@ -45,6 +45,11 @@ class VideoRepository(
         val entity = TagEntity(name = clean, createdAt = System.currentTimeMillis())
         return entity.copy(id = tagDao.insert(entity)).toDomain()
     }
+
+    suspend fun findTag(name: String): Tag? = tagDao.findByName(name)?.toDomain()
+
+    /** Supprime le tag et le retire des vidéos, sans supprimer de vidéo. */
+    suspend fun deleteTag(id: Long) = tagDao.delete(id)
 }
 
 private fun TagEntity.toDomain() = Tag(id, name, createdAt)

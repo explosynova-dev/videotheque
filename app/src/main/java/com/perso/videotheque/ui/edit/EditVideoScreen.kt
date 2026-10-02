@@ -19,10 +19,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -57,8 +54,7 @@ import coil.compose.AsyncImage
 import com.perso.videotheque.domain.DurationFormat
 import com.perso.videotheque.ui.components.ConfirmDeleteDialog
 import com.perso.videotheque.ui.components.HairlineBorder
-import com.perso.videotheque.ui.components.NewTagDialog
-import com.perso.videotheque.ui.components.TagSelector
+import com.perso.videotheque.ui.components.TagSection
 import com.perso.videotheque.ui.components.VideoGlyph
 import com.perso.videotheque.ui.home.quietFieldColors
 
@@ -69,7 +65,6 @@ fun EditVideoScreen(
     onClose: (saved: Boolean) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    var showNewTag by rememberSaveable { mutableStateOf(false) }
     var showDelete by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(state.isDone) { if (state.isDone) onClose(true) }
@@ -130,37 +125,18 @@ fun EditVideoScreen(
         ) {
             LinkField(state, viewModel::onUrlChange)
             Preview(state)
-            Column {
-                Label("Tags")
-                Spacer(Modifier.height(4.dp))
-                TagSelector(
-                    tags = state.allTags,
-                    selectedIds = state.selectedTagIds,
-                    onToggle = viewModel::onTagToggle,
-                    trailing = {
-                        AssistChip(
-                            onClick = { showNewTag = true },
-                            label = { Text("Nouveau tag") },
-                            leadingIcon = { Icon(Icons.Filled.Add, contentDescription = null, Modifier.width(18.dp)) },
-                            shape = MaterialTheme.shapes.extraLarge,
-                            border = AssistChipDefaults.assistChipBorder(
-                                enabled = true,
-                                borderColor = MaterialTheme.colorScheme.outline,
-                            ),
-                        )
-                    },
-                )
-            }
+            TagSection(
+                tags = state.allTags,
+                selectedIds = state.selectedTagIds,
+                onToggle = viewModel::onTagToggle,
+                onCreate = viewModel::onCreateTag,
+                onDelete = viewModel::onDeleteTag,
+                alwaysShowNewTag = true,
+            )
             DurationField(state, viewModel::onDurationChange)
         }
     }
 
-    if (showNewTag) {
-        NewTagDialog(
-            onCreate = { viewModel.onCreateTag(it); showNewTag = false },
-            onDismiss = { showNewTag = false },
-        )
-    }
     if (showDelete) {
         ConfirmDeleteDialog(
             onConfirm = { showDelete = false; viewModel.delete() },

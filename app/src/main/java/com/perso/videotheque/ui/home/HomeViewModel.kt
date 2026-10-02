@@ -51,6 +51,15 @@ class HomeViewModel(private val repository: VideoRepository) : ViewModel() {
 
     fun onAllTags() = query.update { it.copy(tagIds = emptySet()) }
 
+    fun onCreateTag(name: String) {
+        viewModelScope.launch { repository.createTag(name) }
+    }
+
+    fun onDeleteTag(id: Long) {
+        query.update { it.copy(tagIds = it.tagIds - id) }
+        viewModelScope.launch { repository.deleteTag(id) }
+    }
+
     fun onSortChange(sort: SortOrder) = query.update { it.copy(sort = sort) }
 
     fun onResetFilters() = query.update { VideoQuery(sort = it.sort) }

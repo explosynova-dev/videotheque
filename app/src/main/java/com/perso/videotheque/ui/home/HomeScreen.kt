@@ -59,7 +59,7 @@ import com.perso.videotheque.domain.DurationRange
 import com.perso.videotheque.domain.SortOrder
 import com.perso.videotheque.ui.components.ConfirmDeleteDialog
 import com.perso.videotheque.ui.components.TagChip
-import com.perso.videotheque.ui.components.TagSelector
+import com.perso.videotheque.ui.components.TagSection
 import com.perso.videotheque.ui.components.VideoGlyph
 import com.perso.videotheque.util.openVideo
 
@@ -108,7 +108,14 @@ fun HomeScreen(
                 item { SearchField(state.query.text, viewModel::onTextChange) }
                 item { DurationFilter(state.query.duration, viewModel::onDurationChange) }
                 item {
-                    TagFilter(state, viewModel::onTagToggle, viewModel::onAllTags)
+                    TagSection(
+                        tags = state.tags,
+                        selectedIds = state.query.tagIds,
+                        onToggle = viewModel::onTagToggle,
+                        onCreate = viewModel::onCreateTag,
+                        onDelete = viewModel::onDeleteTag,
+                        leading = { TagChip("Tous", state.query.tagIds.isEmpty(), viewModel::onAllTags) },
+                    )
                 }
                 item {
                     ResultsBar(state.videos.size, state.query.sort, viewModel::onSortChange)
@@ -245,19 +252,6 @@ private fun minutesLabel(minutes: Int) = when {
     minutes < 60 -> "$minutes min"
     minutes % 60 == 0 -> "${minutes / 60} h"
     else -> "${minutes / 60} h %02d".format(minutes % 60)
-}
-
-@Composable
-private fun TagFilter(state: HomeUiState, onToggle: (Long) -> Unit, onAll: () -> Unit) {
-    Column {
-        SectionLabel("Tags", Modifier.padding(bottom = 4.dp))
-        TagSelector(
-            tags = state.tags,
-            selectedIds = state.query.tagIds,
-            onToggle = onToggle,
-            leading = { TagChip("Tous", state.query.tagIds.isEmpty(), onAll) },
-        )
-    }
 }
 
 @Composable

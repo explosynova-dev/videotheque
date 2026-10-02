@@ -120,7 +120,8 @@ class EditVideoViewModel(
         val meta = if (youTubeId != null) fetcher.fetch(url) else null
         fetchedUrl = url
         // Zones du corps reconnues dans le titre (FR/EN) : tags présélectionnés, toujours décochables.
-        val keywordTagIds = BodyKeywords.detect(meta?.title.orEmpty()).map { repository.createTag(it).id }
+        // Un tag supprimé par l'utilisateur n'est pas recréé.
+        val keywordTagIds = BodyKeywords.detect(meta?.title.orEmpty()).mapNotNull { repository.findTag(it)?.id }
         _state.update { s ->
             s.copy(
                 isFetching = false,
@@ -156,6 +157,11 @@ class EditVideoViewModel(
             val tag = repository.createTag(name)
             _state.update { it.copy(selectedTagIds = it.selectedTagIds + tag.id) }
         }
+    }
+
+    fun onDeleteTag(id: Long) {
+        _state.update { it.copy(selectedTagIds = it.selectedTagIds - id) }
+        viewModelScope.launch { repository.deleteTag(id) }
     }
 
     fun save() {
